@@ -1,0 +1,45 @@
+<div class="relative flex flex-col w-full h-full">
+  <div class="absolute -top-4 right-0" *ngIf="config?.actions?.close">
+    <button
+      mat-icon-button
+      aria-label="cerrar"
+      (click)="cancel()"
+      aria-label="Cerrar">
+      <mat-icon svgIcon="mat:close"></mat-icon>
+    </button>
+  </div>
+
+  <div
+    class="flex flex-col sm:flex-row flex-auto items-center sm:items-start pt-3 pb-6 sm:pb-8">
+    <div
+      *ngIf="config.icon"
+      class="flex flex-0 items-center justify-center w-16 h-16 sm:mr-4 rounded-full"
+      [class]="config.icon.color">
+      <mat-icon *ngIf="config.icon" [svgIcon]="config.icon.name"></mat-icon>
+    </div>
+    <div
+      class="flex flex-col items-center sm:items-start mt-4 sm:mt-0 space-y-1 text-center sm:text-left">
+      <div class="text-xl leading-6 font-medium">{{ config.title }}</div>
+      <div class="text-secondary" [innerHTML]="config.message"></div>
+    </div>
+  </div>
+  <div class="flex items-center justify-center sm:justify-end space-x-3">
+    <button
+      *ngIf="config.actions?.cancel?.show"
+      mat-button
+      (click)="cancel()"
+      cdkFocusInitial
+      [attr.aria-label]="config.actions?.cancel?.label">
+      {{ config.actions?.cancel?.label }}
+    </button>
+
+    <button
+      *ngIf="config.actions?.confirm?.show"
+      mat-button
+      color="primary"
+      (click)="acepted()"
+      [attr.aria-label]="config.actions?.confirm?.label">
+      {{ config.actions?.confirm?.label }}
+    </button>
+  </div>
+</div>
