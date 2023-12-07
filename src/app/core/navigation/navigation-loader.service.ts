@@ -26,24 +26,147 @@ export class NavigationLoaderService {
         children: [
           {
             type: 'link',
-            label: 'Analytics',
+            label: 'Analíticas',
             route: '/',
             icon: 'mat:insights',
             routerLinkActiveOptions: { exact: true }
           },
+        ]
+      },
+      {
+        type: 'subheading',
+        label: 'Principal',
+        children: [
           {
             type: 'dropdown',
-            label: 'Mantenimiento',
+            label: 'Gestión de Accesos',
             icon: 'mat:insights',
             children: [
               {
                 type: 'link',
-                label: 'Color',
-                route: '/color',
+                label: 'Usuarios',
+                route: '/gestion-accesos/usuario',
+                routerLinkActiveOptions: { exact: true }
+              },
+              {
+                type: 'link',
+                label: 'Perfiles',
+                route: '/gestion-accesos/perfil',
                 routerLinkActiveOptions: { exact: true }
               }
             ]
-          }
+          },
+          {
+            type: 'dropdown',
+            label: 'Mantenimientos',
+            icon: 'mat:insights',
+            children: [
+              {
+                type: 'dropdown',
+                label: 'Maestros',
+                children: [
+                  {
+                    type: 'link',
+                    label: 'Modelos',
+                    route: '/mantenimientos/modelo',
+                    routerLinkActiveOptions: { exact: true }
+                  },
+                  {
+                    type: 'link',
+                    label: 'Capelladas',
+                    route: '/mantenimientos/capellada',
+                    routerLinkActiveOptions: { exact: true }
+                  },
+                  {
+                    type: 'link',
+                    label: 'Plantas',
+                    route: '/mantenimientos/planta',
+                    routerLinkActiveOptions: { exact: true }
+                  },
+                  {
+                    type: 'link',
+                    label: 'Tacos',
+                    route: '/mantenimientos/taco',
+                    routerLinkActiveOptions: { exact: true }
+                  },
+                  {
+                    type: 'link',
+                    label: 'Forros',
+                    route: '/mantenimientos/forro',
+                    routerLinkActiveOptions: { exact: true }
+                  },
+                  {
+                    type: 'link',
+                    label: 'Colores',
+                    route: '/mantenimientos/color',
+                    routerLinkActiveOptions: { exact: true }
+                  },
+                  {
+                    type: 'link',
+                    label: 'Series',
+                    route: '/mantenimientos/serie',
+                    routerLinkActiveOptions: { exact: true }
+                  },
+                  {
+                    type: 'link',
+                    label: 'Productos',
+                    route: '/mantenimientos/producto',
+                    routerLinkActiveOptions: { exact: true }
+                  },
+                ]
+              },
+              {
+                type: 'link',
+                label: 'Cargos',
+                route: 'mantenimientos/cargo',
+                routerLinkActiveOptions: { exact: true }
+              },
+              {
+                type: 'link',
+                label: 'Empleados',
+                route: 'mantenimientos/empleado',
+                routerLinkActiveOptions: { exact: true }
+              },
+              {
+                type: 'link',
+                label: 'Tiendas/Almacenes',
+                route: 'mantenimientos/tienda-almacen',
+                routerLinkActiveOptions: { exact: true }
+              }
+            ]
+          },
+          {
+            type: 'dropdown',
+            label: 'Transacciones',
+            icon: 'mat:insights',
+            children: [
+              {
+                type: 'link',
+                label: 'Movimientos',
+                route: '/transacciones/movimiento',
+                routerLinkActiveOptions: { exact: true }
+              },
+              {
+                type: 'link',
+                label: 'Solicitudes de aprobación',
+                route: '/transacciones/solicitud-aprobacion',
+                routerLinkActiveOptions: { exact: true }
+              }
+            ]
+          },
+          {
+            type: 'dropdown',
+            label: 'Inventarios',
+            icon: 'mat:insights',
+            children: [
+              {
+                type: 'link',
+                label: 'Inventarios',
+                route: '/inventarios/inventario',
+                routerLinkActiveOptions: { exact: true }
+              }
+            ]
+          },
         ]
       }
     ]);

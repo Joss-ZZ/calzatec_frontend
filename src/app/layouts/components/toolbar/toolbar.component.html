@@ -24,7 +24,7 @@
     </h1>
   </a>
 
-  <button
+  <!-- <button
     *ngIf="isHorizontalLayout$ | async"
     [class.hidden]="!(isDesktop$ | async)"
     [matMenuTriggerFor]="addNewMenu"
@@ -32,9 +32,9 @@
     mat-flat-button
     type="button">
     Add New
-  </button>
+  </button> -->
 
-  <mat-menu
+  <!-- <mat-menu
     #addNewMenu="matMenu"
     [overlapTrigger]="false"
     xPosition="after"
@@ -58,9 +58,9 @@
       <mat-icon svgIcon="mat:ballot"></mat-icon>
       <span>Add Document</span>
     </button>
-  </mat-menu>
+  </mat-menu> -->
 
-  <mat-menu #documentMenu="matMenu">
+  <!-- <mat-menu #documentMenu="matMenu">
     <button mat-menu-item>
       <mat-icon svgIcon="mat:description"></mat-icon>
       <span>Add Quote</span>
@@ -75,9 +75,9 @@
       <mat-icon svgIcon="mat:receipt"></mat-icon>
       <span>Add Receipt</span>
     </button>
-  </mat-menu>
+  </mat-menu> -->
 
-  <div #megaMenuOriginRef class="ltr:ml-2 rtl:mr-2">
+  <!-- <div #megaMenuOriginRef class="ltr:ml-2 rtl:mr-2">
     <button
       (click)="openMegaMenu(megaMenuOriginRef)"
       *ngIf="isHorizontalLayout$ | async"
@@ -89,47 +89,47 @@
       <span>Mega Menu</span>
       <mat-icon class="icon-sm" svgIcon="mat:arrow_drop_down"></mat-icon>
     </button>
-  </div>
+  </div> -->
 
-  <div
+  <!-- <div
     *ngIf="(isVerticalLayout$ | async) && (isNavbarInToolbar$ | async)"
     [class.hidden]="!(isDesktop$ | async)"
     class="px-6 flex-none flex items-center">
     <vex-navigation-item
       *ngFor="let item of navigationItems$ | async"
       [item]="item"></vex-navigation-item>
-  </div>
+  </div> -->
 
   <span class="flex-1"></span>
 
   <div class="-mx-1 flex items-center">
-    <div class="px-1">
+    <!-- <div class="px-1">
       <button (click)="openSearch()" mat-icon-button type="button">
         <mat-icon color="primary" svgIcon="mat:search"></mat-icon>
       </button>
-    </div>
+    </div> -->
 
     <div class="px-1">
       <vex-toolbar-notifications></vex-toolbar-notifications>
     </div>
 
-    <div class="px-1">
+    <!-- <div class="px-1">
       <button (click)="openQuickpanel()" mat-icon-button type="button">
         <mat-icon color="primary" svgIcon="mat:bookmarks"></mat-icon>
       </button>
-    </div>
+    </div> -->
 
-    <div class="px-1">
+    <!-- <div class="px-1">
       <button [matMenuTriggerFor]="languageMenu" mat-icon-button type="button">
         <mat-icon svgIcon="flag:united-states"></mat-icon>
       </button>
-    </div>
+    </div> -->
 
     <div *ngIf="userVisible$ | async" class="px-1">
       <vex-toolbar-user></vex-toolbar-user>
     </div>
 
-    <mat-menu
+    <!-- <mat-menu
       #languageMenu="matMenu"
       overlapTrigger="false"
       xPosition="before"
@@ -143,10 +143,10 @@
         <mat-icon svgIcon="flag:germany"></mat-icon>
         <span>German</span>
       </button>
-    </mat-menu>
+    </mat-menu> -->
   </div>
 </div>
 
-<vex-navigation
+<!-- <vex-navigation
   *ngIf="(isVerticalLayout$ | async) && (isNavbarBelowToolbar$ | async)"
-  [class.hidden]="!(isDesktop$ | async)"></vex-navigation>
+  [class.hidden]="!(isDesktop$ | async)"></vex-navigation> -->
