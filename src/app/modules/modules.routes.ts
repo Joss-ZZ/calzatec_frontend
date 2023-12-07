@@ -4,6 +4,10 @@ export const modulesRoutes: VexRoutes = [
   {
     path: 'color',
     loadComponent: () =>
-      import('./color/color.component').then((c) => c.ColorComponent)
+      import('./color/color.component').then((c) => c.ColorComponent),
+    data: {
+      scrollDisabled: true,
+      toolbarShadowEnabled: false
+    }
   }
 ];

@@ -72,7 +72,7 @@ export class AlertService {
     this._matSnackBar.openFromComponent(SnackComponent, {
       data,
       panelClass: `ct-alert-${type}`,
-      duration
+      duration: duration ?? 3000
     });
   }
 
