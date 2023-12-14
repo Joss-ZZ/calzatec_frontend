@@ -80,11 +80,9 @@ export class ColorComponent extends GenericCrudComponetList<
         cellRenderer: ButtonTableComponent,
         cellRendererParams: {
           update: (value) => {
-            console.log('update', { value });
             this.update(value.colorId);
           },
           delete: (value) => {
-            console.log('delete', { value });
             this.remove(value.colorId);
           }
         }

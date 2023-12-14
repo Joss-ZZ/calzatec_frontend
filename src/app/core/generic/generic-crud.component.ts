@@ -7,7 +7,7 @@ import {
   computed
 } from '@angular/core';
 import { NonNullableFormBuilder, FormGroup } from '@angular/forms';
-import { TypeForm, ErrorFc, errorForm } from '@calzatec/shared/utils/form';
+import { TypeForm } from '@calzatec/shared/utils/form';
 import { firstValueFrom } from 'rxjs';
 import { DialogConfig, GenericCrud } from './generic-crud';
 import { Action } from '@calzatec/shared/enums/action.enum';
@@ -19,6 +19,9 @@ import {
   MatDialogConfig,
   MatDialogRef
 } from '@angular/material/dialog';
+import { dialogClose } from '@calzatec/shared/utils/dialog';
+
+import * as deepEqual from 'fast-deep-equal';
 
 @Directive()
 export abstract class GenericCrudComponetList<C, U, R> implements OnInit {
@@ -46,7 +49,6 @@ export abstract class GenericCrudComponetList<C, U, R> implements OnInit {
     this.loading.set(true);
 
     const result$ = this._service.findAll().subscribe((colors) => {
-      console.log({ colors });
       this.results.set(colors);
       this.loading.set(false);
       result$.unsubscribe();
@@ -118,33 +120,42 @@ export abstract class GenericCrudComponetDialog<C, U, R> implements OnInit {
   // private readonly _dynamicDialogConfig = inject(DynamicDialogConfig);
   private readonly _messageService = inject(AlertService);
   private readonly _matDialogRef = inject(
-    MatDialogRef<GenericCrudComponetDialog<C, U, R>>
+    MatDialogRef<GenericCrudComponetDialog<C, U, R>, R | null>
   );
   private readonly _dialogData = inject<DialogData>(MAT_DIALOG_DATA);
   protected readonly formBuilder = inject(NonNullableFormBuilder);
 
   private readonly _snackBar = this._messageService.snackBar;
 
-  abstract formGroup: FormGroup<TypeForm<C>>;
+  private _value!: C;
 
-  error!: ErrorFc<C>;
+  abstract formGroup: FormGroup<TypeForm<C>>;
 
   loading = signal(false);
   isEdit = signal(false);
-  text = computed(() => {
+  textTitle = computed(() => {
     const { title } = this._dialogData;
     if (this.isEdit()) return `Actualizar ${title}`;
-    return `Crear ${title}`;
+    return `Nuevo ${title}`;
+  });
+  textButton = computed(() => {
+    if (this.isEdit()) return `Actualizar`;
+    return `Guardar`;
   });
 
-  constructor(protected readonly _service: GenericCrud<C, U, R>) {}
+  constructor(protected readonly _service: GenericCrud<C, U, R>) {
+    dialogClose(this._matDialogRef, () => {
+      this.cancel();
+    });
+  }
 
   ngOnInit(): void {
-    this.error = errorForm<C>(this.formGroup);
-
-    this.find();
-
     this.isEdit.set(this._dialogData.action === Action.Update);
+
+    if (this.isEdit()) this.find();
+    else {
+      this._value = this.formGroup.getRawValue() as C;
+    }
   }
 
   async find(): Promise<void> {
@@ -154,32 +165,49 @@ export abstract class GenericCrudComponetDialog<C, U, R> implements OnInit {
       if (action === Action.Update && id) {
         this.loading.set(true);
 
-        const result: R = await firstValueFrom(this._service.findOne(id));
+        try {
+          this.formGroup.disable();
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        this.formGroup.patchValue({ ...(result as any) });
+          const result: R = await firstValueFrom(this._service.findOne(id));
 
-        this.loading.set(false);
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          this.formGroup.patchValue({ ...(result as any) });
+
+          this._value = this.formGroup.getRawValue() as C;
+        } finally {
+          this.formGroup.enable();
+          this.loading.set(false);
+        }
       }
     }
   }
 
   async save(): Promise<void> {
-    if (!this.formGroup.valid) return;
-    this.loading.set(true);
+    if (!this.formGroup.valid) {
+      this.formGroup.markAllAsTouched();
+      return;
+    }
 
     const value = this.formGroup.getRawValue();
 
-    const { id, action } = this._dialogData;
+    if (deepEqual(this._value, value)) {
+      this._matDialogRef.close();
+      return;
+    }
+
+    this.formGroup.disable();
+    this.loading.set(true);
+
+    const { id } = this._dialogData;
 
     try {
-      if (Action.Update === action && id) {
+      if (this.isEdit() && id) {
         await firstValueFrom(this._service.update(id, value as unknown as U));
         this._matDialogRef.close(true);
         this._snackBar.success('Registro actualizado correctamente');
       }
 
-      if (Action.Create === action) {
+      if (!this.isEdit()) {
         const result = await firstValueFrom(
           this._service.insert(value as unknown as C)
         );
@@ -187,7 +215,37 @@ export abstract class GenericCrudComponetDialog<C, U, R> implements OnInit {
         this._snackBar.success('Registro registrado correctamente');
       }
     } finally {
+      this.formGroup.enable();
       this.loading.set(false);
     }
+  }
+
+  async cancel(): Promise<void> {
+    if (deepEqual(this._value, this.formGroup.getRawValue())) {
+      this._matDialogRef.close();
+      return;
+    }
+
+    const confirm$ = this._messageService.confirm({
+      title: 'Info',
+      message: 'Tiene cambios sin guardar, ¿Desea cerra de todos modso?',
+      actions: {
+        cancel: {
+          label: 'No'
+        },
+        confirm: {
+          label: 'si',
+          color: 'primary'
+        }
+      },
+      icon: {
+        name: 'mat:info',
+        color: 'text-blue-500 bg-blue-100'
+      }
+    });
+
+    const result = await firstValueFrom(confirm$.afterClosed());
+
+    if (result === 'acepted') this._matDialogRef.close(null);
   }
 }

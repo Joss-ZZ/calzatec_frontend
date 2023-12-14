@@ -92,7 +92,6 @@ export class LoginComponent {
 
     const result = await firstValueFrom(this._authService.login(authDto));
 
-    console.log(this.formGroup.getRawValue());
     console.log({ result });
 
     this._cookiesService.setItem(KEY.token, result.token);

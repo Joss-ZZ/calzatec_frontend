@@ -1,11 +1,11 @@
 <form (ngSubmit)="save()" [formGroup]="formGroup">
   <div class="flex items-center" mat-dialog-title>
-    <h2 class="headline m-0 flex-auto">{{ text() }}</h2>
+    <h2 class="headline m-0 flex-auto">{{ textTitle() }}</h2>
 
     <button
       class="text-secondary"
-      mat-dialog-close
       mat-icon-button
+      (click)="cancel()"
       type="button">
       <mat-icon svgIcon="mat:close"></mat-icon>
     </button>
@@ -14,25 +14,39 @@
   <mat-divider class="text-border"></mat-divider>
 
   <mat-dialog-content class="flex flex-col">
-    <mat-form-field class="mt-6">
+    <mat-form-field class="mb-6">
       <mat-label>Nombre</mat-label>
       <input cdkFocusInitial formControlName="name" matInput />
 
       <mat-icon matIconPrefix svgIcon="mat:person"></mat-icon>
+      <mat-error *hasError="'required'"> required </mat-error>
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>Valor</mat-label>
-      <input formControlName="value" matInput />
+      <input formControlName="value" type="color" matInput />
 
       <mat-icon matIconPrefix svgIcon="mat:phone"></mat-icon>
+
+      <mat-error *hasError="'required'"> El campo es requerio </mat-error>
+      <mat-error *hasError="'minlength'"> minLength </mat-error>
     </mat-form-field>
   </mat-dialog-content>
 
+  <mat-divider class="text-border"></mat-divider>
+
   <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close type="button">Cancelar</button>
-    <button color="primary" mat-flat-button type="submit" (click)="save()">
-      {{ text() }}
+    <button mat-button type="button" (click)="cancel()">Cancelar</button>
+    <button
+      *ngIf="!loading()"
+      color="primary"
+      mat-flat-button
+      type="submit"
+      (click)="save()">
+      {{ textButton() }}
+    </button>
+    <button *ngIf="loading()" mat-flat-button type="button">
+      <mat-progress-spinner diameter="20" mode="indeterminate" />
     </button>
   </mat-dialog-actions>
 </form>

@@ -25,7 +25,6 @@ export class ErrorInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
       catchError(({ error }: HttpErrorResponse) => {
-        console.log({ error });
         if (!(error instanceof ProgressEvent)) {
           const { typeError, message } = error as ResponseDto<null>;
 

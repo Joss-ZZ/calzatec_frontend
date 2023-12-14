@@ -15,8 +15,12 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
+import {
+  HasErrorRootDirective,
+  HasErrorDirective
+} from '@calzatec/shared/directives/error.directive';
 
 @Component({
   selector: 'app-color-dialog',
@@ -28,11 +32,12 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MatDialogModule,
     MatButtonModule,
     MatIconModule,
-    MatMenuModule,
+    MatProgressSpinnerModule,
     MatDividerModule,
     MatFormFieldModule,
     MatInputModule,
-    MatDatepickerModule
+    HasErrorRootDirective,
+    HasErrorDirective
   ]
 })
 export class ColorDialogComponent extends GenericCrudComponetDialog<
@@ -42,7 +47,11 @@ export class ColorDialogComponent extends GenericCrudComponetDialog<
 > {
   override formGroup = this.formBuilder.group<TypeForm<CreateColorDto>>({
     name: this.formBuilder.control('', [Validators.required]),
-    value: this.formBuilder.control('', [Validators.required])
+    value: this.formBuilder.control('', [
+      Validators.required,
+      Validators.minLength(4),
+      Validators.maxLength(7)
+    ])
   });
 
   constructor(readonly _colorService: ColorService) {
