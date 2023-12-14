@@ -21,7 +21,6 @@ import {
   HasErrorRootDirective,
   HasErrorDirective
 } from '@calzatec/shared/directives/error.directive';
-import { DialogModule } from '@calzatec/shared/components/dialog/dialog.module';
 
 @Component({
   selector: 'app-color-dialog',
@@ -38,8 +37,7 @@ import { DialogModule } from '@calzatec/shared/components/dialog/dialog.module';
     MatFormFieldModule,
     MatInputModule,
     HasErrorRootDirective,
-    HasErrorDirective,
-    DialogModule
+    HasErrorDirective
   ]
 })
 export class ColorDialogComponent extends GenericCrudComponetDialog<
