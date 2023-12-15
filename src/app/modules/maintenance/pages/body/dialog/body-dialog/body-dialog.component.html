@@ -4,8 +4,8 @@
 
     <button
       class="text-secondary"
-      mat-dialog-close
       mat-icon-button
+      (click)="cancel()"
       type="button">
       <mat-icon svgIcon="mat:close"></mat-icon>
     </button>
@@ -20,17 +20,10 @@
 
       <mat-icon matIconPrefix svgIcon="mat:person"></mat-icon>
     </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Valor</mat-label>
-      <input formControlName="value" matInput />
-
-      <mat-icon matIconPrefix svgIcon="mat:phone"></mat-icon>
-    </mat-form-field>
   </mat-dialog-content>
 
   <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close type="button">Cancelar</button>
+    <button mat-button (click)="cancel()" type="button">Cancelar</button>
     <button color="primary" mat-flat-button type="submit" (click)="save()">
       {{ textButton() }}
     </button>

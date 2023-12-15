@@ -1,5 +1,5 @@
 <div class="h-full flex flex-col">
-  <div class="p-6 pb-0 bg-foreground shadow-b flex-none border-b">
+  <div class="p-6 pb-0 bg-foreground shadow-b flex-none border-b bg-primary-600/10">
     <div class="container px-0">
       <h1 class="display-1 font-bold mt-0 mb-4 flex items-center">
         <span
@@ -10,7 +10,9 @@
         <span @fadeInRight class="block">Capelladas</span>
       </h1>
 
-      <button color="primary" mat-flat-button (click)="create()">Nuevo</button>
+      <div class="flex justify-end mb-2">
+        <button color="primary" mat-flat-button (click)="create()">Nuevo</button>
+      </div>
     </div>
   </div>
 
@@ -21,6 +23,7 @@
         class="ag-theme-material"
         [gridOptions]="gridOptions"
         [rowData]="results()"
+        (gridReady)="onGridReady($event)"
         [columnDefs]="columnDefs">
       </ag-grid-angular>
     </div>

@@ -3,7 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AgGridModule } from 'ag-grid-angular';
-import { GridOptions } from 'ag-grid-community';
+import { GridApi, GridOptions, GridReadyEvent } from 'ag-grid-community';
 import { NgIf, AsyncPipe, NgStyle } from '@angular/common';
 import { fadeInRight400ms } from '@vex/animations/fade-in-right.animation';
 import { fadeInUp400ms } from '@vex/animations/fade-in-up.animation';
@@ -21,7 +21,11 @@ import { ColDefCustom } from '@calzatec/shared/interfaces/aggrid.interface';
 import { defaultGridOptions } from '@calzatec/shared/utils/aggrid';
 import { BodyService } from '@calzatec/shared/services/body.service';
 import { BodyDialogComponent } from './dialog/body-dialog/body-dialog.component';
-import { CreateBodyDto, ResponseBodyDto, UpdateBodyDto } from '@calzatec/shared/models/body.dto';
+import {
+  CreateBodyDto,
+  ResponseBodyDto,
+  UpdateBodyDto
+} from '@calzatec/shared/models/body.dto';
 
 @Component({
   selector: 'app-color',
@@ -66,25 +70,34 @@ export class BodyComponent extends GenericCrudComponetList<
     ...defaultGridOptions
   };
 
-  columnDefs: ColDefCustom<ResponseBodyDto, ButtonTable<ResponseBodyDto>>[] =
-    [
-      { headerName: 'Nombre', field: 'name' },
-      {
-        headerName: 'Acciones',
-        cellRenderer: ButtonTableComponent,
-        cellRendererParams: {
-          update: (value) => {
-            console.log('update', { value });
-            this.update(value.bodyId);
-          },
-          delete: (value) => {
-            console.log('delete', { value });
-            this.remove(value.bodyId);
-          }
+  columnDefs: ColDefCustom<ResponseBodyDto, ButtonTable<ResponseBodyDto>>[] = [
+    { headerName: 'Nombre', field: 'name', flex: 1 },
+    {
+      headerName: 'Acciones',
+      minWidth: 120,
+      width: 150,
+      cellRenderer: ButtonTableComponent,
+      cellRendererParams: {
+        update: (value) => {
+          console.log('update', { value });
+          this.update(value.bodyId);
+        },
+        delete: (value) => {
+          console.log('delete', { value });
+          this.remove(value.bodyId);
         }
-      }
-    ];
-    constructor(readonly _bodyService: BodyService) {
-      super(_bodyService, BodyDialogComponent);
+      },
+      cellClass: 'text-center',
+      pinned: 'right'
     }
+  ];
+  constructor(readonly _bodyService: BodyService) {
+    super(_bodyService, BodyDialogComponent);
+  }
+
+  gridApi: GridApi | undefined;
+
+  onGridReady(params: GridReadyEvent) {
+    this.gridApi = params.api;
+  }
 }

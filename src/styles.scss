@@ -49,3 +49,16 @@ html {
 .ct-alert-error {
   --mdc-snackbar-container-color: #ff5757 !important;
 }
+
+/* Estilos personalizados para Ag-Grid */
+.ag-header,
+.ag-advanced-filter-header {
+  background-color: rgb(226, 226, 244);
+}
+.ag-header-container {
+  background-color: rgb(226, 226, 244);
+}
+.ag-header-cell-label {
+  display: flex;
+  justify-content: center;
+}

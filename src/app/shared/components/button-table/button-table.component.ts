@@ -13,11 +13,11 @@ export interface ButtonTable<T> {
 @Component({
   selector: 'ct-button-table',
   template: `
-    <div class="flex gap-1 items-center">
-      <button mat-fab color="warn" (click)="delete()" aria-label="delete">
+    <div class="flex gap-1 justify-center items-center">
+      <button mat-icon-button color="warn" (click)="delete()" aria-label="delete" class="flex align-center">
         <mat-icon svgIcon="mat:delete"></mat-icon>
       </button>
-      <button mat-fab color="primary" (click)="update()" aria-label="update">
+      <button mat-icon-button color="primary" (click)="update()" aria-label="update" class="flex align-center">
         <mat-icon svgIcon="mat:edit"></mat-icon>
       </button>
     </div>
