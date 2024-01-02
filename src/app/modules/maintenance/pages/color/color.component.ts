@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AgGridModule } from 'ag-grid-angular';
 import { GridOptions } from 'ag-grid-community';
-import { NgIf, AsyncPipe, NgStyle } from '@angular/common';
+import { NgIf, AsyncPipe, NgStyle, NgForOf } from '@angular/common';
 import { fadeInRight400ms } from '@vex/animations/fade-in-right.animation';
 import { fadeInUp400ms } from '@vex/animations/fade-in-up.animation';
 import { scaleFadeIn400ms } from '@vex/animations/scale-fade-in.animation';
@@ -47,7 +47,8 @@ import { defaultGridOptions } from '@calzatec/shared/utils/aggrid';
     AsyncPipe,
     NgStyle,
     SpinnerTableComponent,
-    ButtonTableComponent
+    ButtonTableComponent,
+    NgForOf
   ]
 })
 export class ColorComponent extends GenericCrudComponetList<
@@ -77,6 +78,10 @@ export class ColorComponent extends GenericCrudComponetList<
       { headerName: 'Valor', field: 'value' },
       {
         headerName: 'Acciones',
+        headerClass: 'ag-grid-text-center',
+        autoHeight: true,
+        pinned: 'right',
+        sortable: false,
         cellRenderer: ButtonTableComponent,
         cellRendererParams: {
           update: (value) => {

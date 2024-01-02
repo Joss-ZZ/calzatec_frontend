@@ -47,11 +47,14 @@ export abstract class GenericCrudComponetList<C, U, R> implements OnInit {
 
   list(): void {
     this.loading.set(true);
-    const result$ = this._service.findAll().pipe(delay(6000)).subscribe((colors) => {
-      this.results.set(colors);
-      this.loading.set(false);
-      result$.unsubscribe();
-    });
+    const result$ = this._service
+      .findAll()
+      .pipe(delay(6000))
+      .subscribe((colors) => {
+        this.results.set(colors);
+        this.loading.set(false);
+        result$.unsubscribe();
+      });
   }
 
   create(): void {
@@ -227,7 +230,7 @@ export abstract class GenericCrudComponetDialog<C, U, R> implements OnInit {
 
     const confirm$ = this._messageService.confirm({
       title: 'Info',
-      message: 'Tiene cambios sin guardar, ¿Desea cerra de todos modso?',
+      message: 'Tiene cambios sin guardar, ¿Desea cerrar de todos modos?',
       actions: {
         cancel: {
           label: 'No'
