@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { NonNullableFormBuilder, FormGroup } from '@angular/forms';
 import { TypeForm } from '@calzatec/shared/utils/form';
-import { firstValueFrom } from 'rxjs';
+import { delay, firstValueFrom } from 'rxjs';
 import { DialogConfig, GenericCrud } from './generic-crud';
 import { Action } from '@calzatec/shared/enums/action.enum';
 import { DialogData } from '@calzatec/shared/interfaces/dialog.interface';
@@ -30,7 +30,7 @@ export abstract class GenericCrudComponetList<C, U, R> implements OnInit {
 
   private readonly _snackBar = this._messageService.snackBar;
 
-  results = signal<R[]>([]);
+  results = signal<R[] | null>(null);
   loading = signal(true);
 
   abstract dialogConfig: DialogConfig;
@@ -47,8 +47,7 @@ export abstract class GenericCrudComponetList<C, U, R> implements OnInit {
 
   list(): void {
     this.loading.set(true);
-
-    const result$ = this._service.findAll().subscribe((colors) => {
+    const result$ = this._service.findAll().pipe(delay(6000)).subscribe((colors) => {
       this.results.set(colors);
       this.loading.set(false);
       result$.unsubscribe();
@@ -105,7 +104,7 @@ export abstract class GenericCrudComponetList<C, U, R> implements OnInit {
         dialogRefSub.unsubscribe();
         return;
       }
-      this.results.update((results) => [result, ...results]);
+      this.results.update((results) => [result, ...results!]);
       dialogRefSub.unsubscribe();
     });
   }

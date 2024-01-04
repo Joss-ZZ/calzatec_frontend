@@ -7,7 +7,7 @@ export const defaultGridOptions: GridOptions = {
   overlayNoRowsTemplate:
     '<span class="ag-overlay-loading-center">No se ha encontrado información</span>',
   loadingOverlayComponentParams: {
-    loadingMessage: 'Cargando...'
+    loadingMessage: 'Cargando información...'
   },
   pagination: true,
   paginationPageSize: 10,

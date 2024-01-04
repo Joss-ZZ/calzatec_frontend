@@ -32,6 +32,12 @@ html {
   // --vex-color-warn-contrast: black;
 }
 
+:root {
+  --vex-sidenav-background: #fff;
+  --vex-sidenav-color: #000;
+  /* Agregar otras modificaciones de variables aquí */
+}
+
 .ct-confirmation-dialog-panel {
   max-width: 32em !important;
   width: 98%;
